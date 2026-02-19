@@ -1,0 +1,54 @@
+.footer{
+  background:#111;
+  color:white;
+  padding:40px 60px;
+
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3 partes */
+  align-items:center;
+}
+
+/* Columna izquierda */
+.primero{
+  justify-self:start;
+}
+
+/* Centro */
+.centro{
+  text-align:center;
+}
+
+/* Derecha */
+.derecha{
+  text-align:right;
+}
+
+/* Spotify tamaño */
+.spotify-playlist iframe{
+  width:250px;
+  height:80px;
+  border:none;
+}
+
+/* Logo */
+.footer-logo{
+  font-size:28px;
+  font-weight:bold;
+  letter-spacing:3px;
+}
+
+@media (max-width:768px){
+  .footer{
+    grid-template-columns:1fr;
+    gap:25px;
+    text-align:center;
+  }
+
+  .derecha{
+    text-align:center;
+  }
+
+  .primero{
+    justify-self:center;
+  }
+}

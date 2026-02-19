@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antika Restaurant – Sicuani, Cusco</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/spotify.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-outer">
+  <a href="#hero" class="logo-area">
+    <div class="logo-icon">ANT</div>
+    <div>
+      <div class="logo-text">ANTIKA</div>
+      <div class="logo-sub">Restaurant · Sicuani</div>
+    </div>
+  </a>
+  <nav id="main-nav">
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul>
+      <li><a href="#nosotros" onclick="closeMenu()">Nosotros</a></li>
+      <li><a href="#menu" onclick="closeMenu()">La Carta</a></li>
+      <li><a href="#galeria" onclick="closeMenu()">Galería</a></li>
+      <li><a href="#opiniones" onclick="closeMenu()">Opiniones</a></li>
+      <li class="cta"><a href="https://wa.me/51999999999?text=Hola,%20quisiera%20hacer%20una%20reserva" target="_blank" onclick="closeMenu()">Reservar</a></li>
+    </ul>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-badge">Sicuani · Cusco · Perú</span>
+    <h1 class="hero-title">
+      ANTIKA
+      <span>Restaurant</span>
+    </h1>
+    <p class="hero-desc">Sabores auténticos de la cocina peruana en el corazón de Sicuani. Una experiencia gastronómica que celebra la tradición.</p>
+    <div class="hero-ctas">
+      <a href="#menu" class="btn-primary">Ver la Carta</a>
+      <a href="#nosotros" class="btn-outline">Conócenos</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="line"></div>
+    <span>Explorar</span>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="nosotros-grid">
+    <div class="nosotros-img"></div>
+    <div class="nosotros-content">
+      <span class="section-label">Nuestra historia</span>
+      <h2 class="section-title">Tradición &amp; Sabor</h2>
+      <p class="section-desc">En Antika Restaurant celebramos los sabores auténticos de la cocina criolla y peruana. Cada plato que servimos lleva el alma de nuestra tierra: ingredientes frescos, recetas de antaño y la calidez del pueblo de Sicuani.</p>
+      <p class="section-desc" style="margin-top:16px;">Desde nuestros desayunos artesanales hasta nuestros fondos más contundentes, cada visita es una experiencia que homenajea la herencia culinaria del sur del Perú.</p>
+    </div>
+  </div>
+  <div class="info-grid">
+    <div class="info-block teal">
+      <span class="section-label">Dónde encontrarnos</span>
+      <h3 class="section-title">Ubicación &amp; Horario</h3>
+      <p>Estamos en el corazón de Sicuani, listos para recibirte con los mejores sabores de nuestra cocina.</p>
+      <p style="margin-top:20px;"><strong>Sicuani, Cusco – Perú</strong></p>
+      <p style="margin-top:8px;">Atención todos los días:<br><strong>Desayunos hasta las 11:00 a.m.</strong></p>
+      <a href="#mapa" class="map-link">Ver en mapa ↓</a>
+    </div>
+    <div class="info-block light">
+      <span class="section-label" style="color:var(--teal);">Pago &amp; Contacto</span>
+      <h3 class="section-title" style="color:var(--teal-dark);">Información</h3>
+      <p style="color:var(--text);">Aceptamos pagos en efectivo. El pago con tarjeta tiene un cargo adicional de <strong>5%</strong>.</p>
+      <p style="color:var(--text);margin-top:16px;">¿Tienes alguna consulta o quieres hacer una reserva? Contáctanos directamente:</p>
+      <a href="https://wa.me/51999999999" class="map-link" style="margin-top:20px;">Escribir por WhatsApp →</a>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header">
+    <span class="section-label" style="color:var(--teal);">Nuestra propuesta</span>
+    <h2 class="section-title" style="color:var(--teal-dark);">La Carta</h2>
+    <p class="section-desc">Tradición, creatividad y calidad en cada plato. Desde desayunos criollos hasta fondos especiales, nuestra carta celebra los sabores del Perú.</p>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('desayunos', this)">Desayunos</button>
+    <button class="tab-btn" onclick="showTab('sandwiches', this)">Sándwiches</button>
+    <button class="tab-btn" onclick="showTab('ensaladas', this)">Ensaladas &amp; Sopas</button>
+    <button class="tab-btn" onclick="showTab('mediodia', this)">Medio Día</button>
+    <button class="tab-btn" onclick="showTab('fondos', this)">Fondos</button>
+    <button class="tab-btn" onclick="showTab('burgers', this)">Burgers</button>
+    <button class="tab-btn" onclick="showTab('alitas', this)">Alitas &amp; Broaster</button>
+    <button class="tab-btn" onclick="showTab('adicionales', this)">Adicionales</button>
+  </div>
+
+  <!-- DESAYUNOS -->
+  <div id="tab-desayunos" class="tab-panel active">
+    <div class="menu-columns">
+      <div>
+        <p class="menu-section-title">Desayunos · Disponibles hasta las 11:00 a.m.</p>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Desayuno Antika</span>
+            <span class="item-desc">Opción A: Bistec encebollado con arroz y papa sancochada, incluye café o jugo. / Opción B: Saltado casero de pollo con arroz y papas fritas, incluye café o jugo.</span>
+          </div>
+          <span class="item-price">S/ 14.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Desayuno Americano</span>
+            <span class="item-desc">Pan artesanal con mantequilla y mermelada, huevos al gusto (fritos o revueltos) con tocino crocante o jamón, jugo natural de fruta de estación y café pasado.</span>
+          </div>
+          <span class="item-price">S/ 13.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Tamal Peruano</span>
+            <span class="item-desc">Tamales arequipeños y limeños de maíz rellenos con carne de cerdo, acompañados de pan fresco y sarsa criolla. Incluye café y pan del día.</span>
+          </div>
+          <span class="item-price">S/ 13.00</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;padding:40px;border:1px solid rgba(42,107,112,0.3);border-radius:4px;">
+          <div style="font-family:'Special Elite',cursive;font-size:48px;color:var(--teal);margin-bottom:12px;">☕</div>
+          <p style="color:var(--teal-dark);font-style:italic;font-size:17px;">Disponibles<br>hasta las 11:00 a.m.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SÁNDWICHES -->
+  <div id="tab-sandwiches" class="tab-panel">
+    <div class="menu-columns">
+      <div>
+        <p class="menu-section-title">Sándwiches</p>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Sándwich de Lomo Saltado</span>
+            <span class="item-desc">Lomo saltado jugoso en pan artesanal con crujientes papas andinas fritas.</span>
+          </div>
+          <span class="item-price">S/ 16.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Sándwich de Milanesa de Pollo</span>
+            <span class="item-desc">Milanesa de pollo crocante en pan, con lechuga, tomate y papas fritas doradas.</span>
+          </div>
+          <span class="item-price">S/ 15.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Sándwich de Filete de Pollo</span>
+            <span class="item-desc">Filete de pollo a la plancha con lechuga y tomate en pan suave, acompañado de hojuelas de papa crujientes.</span>
+          </div>
+          <span class="item-price">S/ 14.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Pan con Chicharrón</span>
+            <span class="item-desc">Crujientes trozos de chicharrón de cerdo en pan francés fresco, con camote frito y salsa criolla.</span>
+          </div>
+          <span class="item-price">S/ 12.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Choripán</span>
+            <span class="item-desc">Chorizo al grill en pan fresco con chimichurri casero y hojuelas de papa crujientes.</span>
+          </div>
+          <span class="item-price">S/ 10.00</span>
+        </div>
+      </div>
+      <div>
+        <p class="menu-section-title" style="visibility:hidden;">—</p>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Sándwich de Salchicha Arequipeña</span>
+            <span class="item-desc">Exquisita salchicha arequipeña en pan con un toque de mostaza. Auténtico y lleno de tradición.</span>
+          </div>
+          <span class="item-price">S/ 10.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Sándwich Caprese</span>
+            <span class="item-desc">Tomate en rodajas, mozzarella suave y albahaca aromática en pan artesanal con aceite de oliva y pesto.</span>
+          </div>
+          <span class="item-price">S/ 15.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Sándwich de Champiñones Salteados</span>
+            <span class="item-desc">Pan artesanal relleno de champiñones salteados con ajo y cebolla, queso derretido y lechuga fresca.</span>
+          </div>
+          <span class="item-price">S/ 15.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Sándwich de Pollo Deshilachado</span>
+            <span class="item-desc">Pollo deshilachado con mayonesa tártara casera (huevo cocido y cebolla china), en pan con lechuga y hojuelas de papa crujientes.</span>
+          </div>
+          <span class="item-price">S/ 13.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENSALADAS Y SOPAS -->
+  <div id="tab-ensaladas" class="tab-panel">
+    <div class="menu-columns">
+      <div>
+        <p class="menu-section-title">Ensaladas</p>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">César</span>
+            <span class="item-desc">Lechugas bañadas en salsa César, queso parmesano y crutones crujientes.</span>
+          </div>
+          <span class="item-price">S/ 15.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Mango al Curry</span>
+            <span class="item-desc">Lechugas frescas, tocino crujiente, jamón, mango en cubos con vinagreta de mango y curry.</span>
+          </div>
+          <span class="item-price">S/ 16.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Campesina</span>
+            <span class="item-desc">Atún, quinua, aceitunas negras, tomate, lechuga y papas doradas.</span>
+          </div>
+          <span class="item-price">S/ 18.00</span>
+        </div>
+      </div>
+      <div>
+        <p class="menu-section-title">Sopas</p>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Dieta de Pollo</span>
+            <span class="item-desc">Caldo de pollo con tiernos trozos de pollo y vegetales.</span>
+          </div>
+          <span class="item-price">S/ 16.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Sopa a la Minuta</span>
+            <span class="item-desc">Trozos de carne tierna, fideos cabello de ángel, huevo y leche al estilo criollo.</span>
+          </div>
+          <span class="item-price">S/ 18.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Caldo de Gallina</span>
+            <span class="item-desc">Caldo concentrado con gallina de corral, fideos, papa, huevo duro y un toque de cebolla china.</span>
+          </div>
+          <span class="item-price">S/ 20.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIO DÍA CRIOLLO -->
+  <div id="tab-mediodia" class="tab-panel">
+    <div class="menu-columns">
+      <div>
+        <p class="menu-section-title">Medio Día Criollo</p>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Arroz con Pollo</span>
+            <span class="item-desc">Arroz realzado con cilantro y pollo dorado, con salsa criolla y papa a la huancaína.</span>
+          </div>
+          <span class="item-price">S/ 22.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Lengua Almendrada</span>
+            <span class="item-desc">Tiernos cortes de lengua en cremosa salsa de maní tostado, acompañado de arroz.</span>
+          </div>
+          <span class="item-price">S/ 18.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Estofado de Res</span>
+            <span class="item-desc">Res jugosa cocida en salsa de vino tinto, tomate, cebolla y ajo. Con arroz blanco.</span>
+          </div>
+          <span class="item-price">S/ 22.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Frejol con Seco de Res</span>
+            <span class="item-desc">Costilla de res en salsa aromática de cilantro y especias, con frejoles y arroz blanco.</span>
+          </div>
+          <span class="item-price">S/ 22.00</span>
+        </div>
+      </div>
+      <div>
+        <p class="menu-section-title" style="visibility:hidden;">—</p>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Ají de Gallina</span>
+            <span class="item-desc">Pollo desmenuzado en cremosa salsa de ají amarillo, sobre papas sancochadas y arroz blanco.</span>
+          </div>
+          <span class="item-price">S/ 22.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Asado a la Olla con Puré o Tallarín</span>
+            <span class="item-desc">Asado de res cocido con verduras y hierbas aromáticas, a elegir con puré de papas o tallarines.</span>
+          </div>
+          <span class="item-price">S/ 22.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Malaya Dorada</span>
+            <span class="item-desc">Res cocida, crujiente por fuera y jugosa por dentro, con choclo tierno, sarsa fresca y papas doradas.</span>
+          </div>
+          <span class="item-price">S/ 22.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">Apanado al Jugo</span>
+            <span class="item-desc">Bistec rebozado y frito, cocido en jugo aromático de vegetales y especias. Con arroz blanco y papas.</span>
+          </div>
+          <span class="item-price">S/ 22.00</span>
+        </div>
+      </div>
+    </div>
+    <div class="menu-note" style="margin-top:40px;">
+      ★ <strong>Especiales de Domingo:</strong> Chicharrón de cerdo S/ 23 · Caja China S/ 28 · Triple Arequipeño S/ 35 · Adobo Arequipeño de Antaño S/ 22
+    </div>
+  </div>
+
+  <!-- FONDOS -->
+  <div id="tab-fondos" class="tab-panel">
+    <div class="menu-columns">
+      <div>
+        <p class="menu-section-title">Fondos</p>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Chaufa de Pollo</span>
+            <span class="item-desc">Arroz frito salteado al wok con pollo, huevo, cebollita china y ajonjolí.</span></div>
+          <span class="item-price">S/ 18.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Chaufa Agridulce</span>
+            <span class="item-desc">Arroz frito al estilo peruano con crujientes trozos de pollo en salsa agridulce.</span></div>
+          <span class="item-price">S/ 23.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Corazón Anticuchero</span>
+            <span class="item-desc">Corazón de res marinado en salsa anticuchera, salteado al wok con toque ahumado.</span></div>
+          <span class="item-price">S/ 23.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Pollo a la Plancha</span>
+            <span class="item-desc">Pechuga dorada a la perfección, sazonada con especias especiales.</span></div>
+          <span class="item-price">S/ 22.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Bistec a lo Pobre</span>
+            <span class="item-desc">Bistec a la plancha con arroz blanco, papas fritas, huevo frito y plátano frito o salchicha.</span></div>
+          <span class="item-price">S/ 27.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Milanesa de Pollo / Carne</span>
+            <span class="item-desc">Filete empanizado y dorado. Con papas fritas, arroz y ensalada fresca.</span></div>
+          <span class="item-price">S/ 24.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Trucha a la Menuere</span>
+            <span class="item-desc">Filete de trucha con mantequilla, limón y finas hierbas. Con puré de papa y ensalada.</span></div>
+          <span class="item-price">S/ 24.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Trucha Fungi</span>
+            <span class="item-desc">Filete de trucha en salsa de champiñones y bechamel. Con puré de papa y ensalada fresca.</span></div>
+          <span class="item-price">S/ 25.00</span>
+        </div>
+      </div>
+      <div>
+        <p class="menu-section-title">Saltados & Especiales</p>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Saltado de Pollo</span>
+            <span class="item-desc">Pollo salteado al wok con cebolla, tomate y ají amarillo. Con papas fritas y arroz blanco.</span></div>
+          <span class="item-price">S/ 25.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Lomo Saltado</span>
+            <span class="item-desc">Lomo de res salteado al wok con cebolla, tomate y ají amarillo. Con papas fritas y arroz.</span></div>
+          <span class="item-price">S/ 28.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Tallarín Saltado de Pollo</span>
+            <span class="item-desc">Fideos salteados con pollo, cebolla, tomate y ají amarillo.</span></div>
+          <span class="item-price">S/ 25.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Tallarín Saltado de Lomo</span>
+            <span class="item-desc">Fideos salteados con lomo de res, cebolla, tomate y ají amarillo.</span></div>
+          <span class="item-price">S/ 28.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Lomo Saltado al Pesto / Huancaína</span>
+            <span class="item-desc">Lomo saltado con fettuccine en salsa cremosa a elección.</span></div>
+          <span class="item-price">S/ 32.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Pulpo Anticuchero</span>
+            <span class="item-desc">Pulpo marinado en salsa anticuchera, ahumado y suave. Con papas doradas, choclo americano y piña.</span></div>
+          <span class="item-price">S/ 42.00</span>
+        </div>
+        <p class="menu-section-title" style="margin-top:28px;">Opciones Vegetarianas</p>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Chaufa de Champiñones</span>
+            <span class="item-desc">Chaufa salteado al wok con champiñones frescos, huevo y cebollita china.</span></div>
+          <span class="item-price">S/ 18.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Kapchi de Habas</span>
+            <span class="item-desc">Guiso andino con habas frescas, papa, queso y un toque de huacatay.</span></div>
+          <span class="item-price">S/ 18.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Tallarín Saltado de Verduras</span>
+            <span class="item-desc">Fideos salteados con mezcla fresca de verduras y champiñones.</span></div>
+          <span class="item-price">S/ 25.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Saltado de Champiñones</span>
+            <span class="item-desc">Champiñones frescos salteados con cebolla, tomate y ají amarillo. Con papas doradas y arroz.</span></div>
+          <span class="item-price">S/ 27.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BURGERS -->
+  <div id="tab-burgers" class="tab-panel">
+    <div class="menu-columns">
+      <div>
+        <p class="menu-section-title">Burgers · Incluye papas fritas personales</p>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Clásica</span>
+            <span class="item-desc">Carne de res sazonada con especias, lechuga fresca y tomate.</span></div>
+          <span class="item-price">S/ 13.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Cheese Burger</span>
+            <span class="item-desc">Jugosa carne de res a la parrilla con queso derretido, lechuga fresca y tomate.</span></div>
+          <span class="item-price">S/ 15.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Bacon Burger</span>
+            <span class="item-desc">Carne de res con tocino ahumado, lechuga fresca y tomate en rodajas.</span></div>
+          <span class="item-price">S/ 15.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Parrillera</span>
+            <span class="item-desc">Carne de res con chorizo dorado, chimichurri casero, lechuga fresca y tomate.</span></div>
+          <span class="item-price">S/ 16.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Doble</span>
+            <span class="item-desc">Dos jugosas carnes de res a la parrilla, lechuga fresca y tomate en rodajas.</span></div>
+          <span class="item-price">S/ 17.00</span>
+        </div>
+      </div>
+      <div>
+        <p class="menu-section-title">Salchipapas</p>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Clásica</span>
+            <span class="item-desc">Crujientes papas fritas acompañadas de salchicha dorada.</span></div>
+          <span class="item-price">S/ 12.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Parrillera</span>
+            <span class="item-desc">Salchipapa con trozos de chorizo bañados en chimichurri casero.</span></div>
+          <span class="item-price">S/ 15.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Salchipollo</span>
+            <span class="item-desc">Salchipapa acompañada de pollo deshilachado.</span></div>
+          <span class="item-price">S/ 15.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Salchi Queso</span>
+            <span class="item-desc">Salchipapa acompañada de cubos de queso frito.</span></div>
+          <span class="item-price">S/ 15.00</span>
+        </div>
+        <div class="menu-item">
+          <div class="item-info"><span class="item-name">Salchi Nuggets</span>
+            <span class="item-desc">Salchipapa acompañada de tiernos nuggets de pollo.</span></div>
+          <span class="item-price">S/ 20.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALITAS Y BROASTER -->
+  <div id="tab-alitas" class="tab-panel">
+    <div class="menu-columns">
+      <div>
+        <p class="menu-section-title">Alitas · Incluye papas fritas personales</p>
+        <div class="menu-item">
+          <div class="item-info">
+            <span class="item-name">6 Unidades de alitas</span>
+            <span class="item-desc">En la salsa de tu elección:</span>
+          </div>
+          <span class="item-price">S/ 16.00</span>
+        </div>
+        <div class="sauce-tags">
+          <span class="sauce-tag">Maracuyá</span>
+          <span class="sauce-tag">BBQ</span>
+          <span class="sauce-tag">Hot BBQ</span>
+          <span class="sauce-tag">Acevichadas</span>
+          <span class="sauce-tag">Crispy</span>
+          <span class="sauce-tag">Anticucheras</span>
+          <span class="sauce-tag">Orientales</span>
+          <span class="sauce-tag">Parrilleras</span>
+          <span class="sauce-tag">Honey Mustard</span>
+          <span class="sauce-tag">Agridulce</span>
+        </div>
+        <div style="margin-top:32px;">
+          <p class="menu-section-title">Costillitas · Incluye papas fritas andinas</p>
+          <div class="menu-item">
+            <div class="item-info">
+              <span class="item-name">3 Unidades de costillitas</span>
+              <span class="item-desc">En la salsa de tu elección:</span>
+            </div>
+            <span class="item-price">S/ 18.00</span>
+          </div>
+          <div class="sauce-tags">
+            <span class="sauce-tag">Maracuyá</span>
+            <span class="sauce-tag">BBQ</span>
+            <span class="sauce-tag">Hot BBQ</span>
+            <span class="sauce-tag">Chimichurri</span>
+            <span class="sauce-tag">Orientales</span>
+            <span class="sauce-tag">Agridulce</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="menu-section-title">Broaster Mr. Bross</p>
+        <p style="font-size:20px;color:#5a4a30;font-style:italic;margin-bottom:20px;">¡Crujiente por fuera, jugoso por dentro y con un sabor irresistible! Pide el combo ideal para ti:</p>
+        <table class="broaster-table">
+          <thead>
+            <tr>
+              <th>Combo</th>
+              <th>Piezas</th>
+              <th>Papas</th>
+              <th>Precio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="promo-name">Solo para Mí</td>
+              <td>2 pzas.</td>
+              <td>1 personal</td>
+              <td class="price-col">S/ 17</td>
+            </tr>
+            <tr>
+              <td class="promo-name">Dúo Conquistador</td>
+              <td>4 pzas.</td>
+              <td>2 personal</td>
+              <td class="price-col">S/ 32</td>
+            </tr>
+            <tr>
+              <td class="promo-name">Trío Perfecto</td>
+              <td>6 pzas.</td>
+              <td>1 mediana + 6 nuggets + ½ lt. chicha</td>
+              <td class="price-col">S/ 50</td>
+            </tr>
+            <tr>
+              <td class="promo-name">Familia Feliz</td>
+              <td>8 pzas.</td>
+              <td>1 familiar + 8 nuggets + 1 lt. chicha</td>
+              <td class="price-col">S/ 70</td>
+            </tr>
+            <tr>
+              <td class="promo-name">Súper Batallón</td>
+              <td>10 pzas.</td>
+              <td>1½ familiar + 10 nuggets + 1 lt. chicha</td>
+              <td class="price-col">S/ 82</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADICIONALES -->
+  <div id="tab-adicionales" class="tab-panel">
+    <div class="menu-columns">
+      <div>
+        <p class="menu-section-title">Adicionales</p>
+        <div class="menu-item"><div class="item-info"><span class="item-name">Docena de Nuggets</span></div><span class="item-price">S/ 16.00</span></div>
+        <div class="menu-item"><div class="item-info"><span class="item-name">½ Docena de Nuggets</span></div><span class="item-price">S/ 10.00</span></div>
+        <div class="menu-item"><div class="item-info"><span class="item-name">Porción Papas Personal</span></div><span class="item-price">S/ 3.50</span></div>
+        <div class="menu-item"><div class="item-info"><span class="item-name">Porción Papas Regular</span></div><span class="item-price">S/ 7.00</span></div>
+        <div class="menu-item"><div class="item-info"><span class="item-name">Queso Extra</span></div><span class="item-price">S/ 5.00</span></div>
+        <div class="menu-item"><div class="item-info"><span class="item-name">Porción Arroz</span></div><span class="item-price">S/ 5.00</span></div>
+        <div class="menu-item"><div class="item-info"><span class="item-name">Ensalada Personal</span></div><span class="item-price">S/ 5.00</span></div>
+        <div class="menu-item"><div class="item-info"><span class="item-name">Huevo Frito</span></div><span class="item-price">S/ 3.00</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;text-align:center;padding:40px;border:1px solid rgba(42,107,112,0.3);border-radius:4px;height:fit-content;margin:auto 0;">
+        <div>
+          <p style="font-family:'Special Elite',cursive;font-size:22px;color:var(--teal-dark);margin-bottom:8px;">🍰 Postre del día</p>
+          <p style="font-size:18px;color:#5a4a30;font-style:italic;">Pregunta a tu mesero por el postre especial del día.</p>
+        </div>
+        <div style="border-top:1px solid rgba(42,107,112,0.2);padding-top:20px;width:100%;">
+          <p style="font-family:'Special Elite',cursive;font-size:15px;color:var(--teal-dark);">💳 Pago con tarjeta</p>
+          <p style="font-size:18px;color:#5a4a30;margin-top:6px;">Tiene un cargo adicional del <strong style="color:var(--teal-dark);">5%</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section id="galeria">
+  <span class="section-label">Nuestra casa</span>
+  <h2 class="section-title">Galería</h2>
+  <p class="section-desc">Conoce Antika a través de nuestros platillos y ambiente. Una experiencia que va más allá del plato.</p>
+  <div class="gallery-grid" style="margin-top:40px;">
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80" alt="Lomo Saltado" loading="lazy">
+      <div class="gallery-label">Fondos</div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=80" alt="Ensaladas" loading="lazy">
+      <div class="gallery-label">Ensaladas</div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1546964124-0cce460f38ef?w=400&q=80" alt="Truchas" loading="lazy">
+      <div class="gallery-label">Trucha</div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80" alt="Desayunos" loading="lazy">
+      <div class="gallery-label">Desayunos</div>
+    </div>
+  </div>
+</section>
+
+<!-- OPINIONES -->
+<section id="opiniones">
+  <div class="opinions-header">
+    <span class="section-label">Lo que dicen nuestros clientes</span>
+    <h2 class="section-title">Opiniones</h2>
+    <p class="section-desc" style="margin:0 auto;max-width:560px;color:var(--cream-dark);opacity:0.8;">En Antika creemos que cada experiencia debe ser inolvidable. Nada nos enorgullece más que las palabras de quienes nos visitan.</p>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">El lomo saltado es increíble, con un sabor auténtico que te transporta. El ambiente es acogedor y el servicio muy atento. Definitivamente volveré.</p>
+      <span class="reviewer">— María C.</span>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">La trucha fungi es un plato extraordinario. La salsa de champiñones y bechamel es cremosa y perfectamente equilibrada. El mejor restaurante de Sicuani sin duda.</p>
+      <span class="reviewer">— José R.</span>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">El desayuno Antika nos encantó durante nuestro viaje. El bistec encebollado estaba en su punto y el café excelente. Muy recomendable para empezar el día.</p>
+      <span class="reviewer">— Ana P.</span>
+    </div>
+  </div>
+</section>
+
+<!-- MAPA -->
+<div id="mapa">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d994.9114174465726!2d-71.22624154157906!3d-14.27403842798109!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91692b3cabf28c27%3A0xbd007cb5cfe738c2!2sRESTAURANTE%20ANTIKA%20SICUANI!5e1!3m2!1ses-419!2spe!4v1771459521586!5m2!1ses-419!2spe"
+    width="600"
+    height="650"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title="Ubicación Antika Restaurant Sicuani">
+  </iframe>
+</div>
+
+
+<!-- RESERVA -->
+<section id="reserva">
+  <div class="reserva-text">
+    <span class="section-label">Tu mesa te espera</span>
+    <h2 class="section-title">Haz tu Reserva</h2>
+    <p class="section-desc">Reserva fácilmente y prepárate para vivir una experiencia gastronómica auténtica en el corazón de Sicuani.</p>
+  </div>
+  <div class="reserva-actions">
+    <a href="https://wa.me/51999999999?text=Hola,%20quisiera%20hacer%20una%20reserva%20en%20Antika%20Restaurant" target="_blank" class="btn-primary">Reservar por WhatsApp</a>
+    <a href="tel:+51999999999" class="btn-outline">Llamar ahora</a>
+  </div>
+</section>
+<a href="https://wa.me/51999999999" class="whatsapp-btn" target="_blank" >
+    <img src="../assets/icons/wasap2.png" alt="WhatsApp" class="whatsapp-icon">
+</a>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+  <!-- Columna 1 -->
+  <div class="footer-col primero">
+    <div class="spotify-playlist">
+      <iframe 
+        src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M"
+        allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Columna 2 -->
+  <div class="footer-col centro">
+    <p class="copy">© 2025 Antika Restaurant · Sicuani, Cusco - Perú</p>
+  </div>
+
+  <!-- Columna 3 -->
+  <div class="footer-col derecha">
+    <div class="footer-logo">ANTIKA</div>
+    <p>Pago con tarjeta: cargo adicional del 5%</p>
+  </div>
+
+</footer>
+
+
+<script src="../js/index.js"></script>
+</body>
+</html>
