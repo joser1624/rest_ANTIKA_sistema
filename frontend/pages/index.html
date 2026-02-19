@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self' fonts.gstatic.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' http://localhost:3000 http://127.0.0.1:3000 https://wa.me;">
     <title>Antika Restaurant – Sicuani, Cusco</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/index.css">
@@ -28,9 +29,58 @@
       <li><a href="#menu" onclick="closeMenu()">La Carta</a></li>
       <li><a href="#galeria" onclick="closeMenu()">Galería</a></li>
       <li><a href="#opiniones" onclick="closeMenu()">Opiniones</a></li>
+      <li id="nav-panel-link" style="display:none;"><a href="/admin" onclick="closeMenu()">Mi Panel</a></li>
+      <li id="nav-login-btn"><a href="#" onclick="event.preventDefault();closeMenu();openLoginModal();">Ingresar</a></li>
+      <li id="nav-user-info" style="display:none;">
+        <button class="user-menu-btn" onclick="toggleUserDropdown(event)">
+          <span class="user-avatar-sm" id="navUserAvatar">A</span>
+          <span class="user-name-sm" id="navUserName">Admin</span>
+          <span class="dropdown-arrow">▾</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <div class="dropdown-header">
+            <span class="dropdown-role" id="dropdownRole">Administrador</span>
+          </div>
+          <a href="/admin" class="dropdown-item" id="dropdownPanelLink">🏢 Mi Panel</a>
+          <button class="dropdown-item logout-item" onclick="logoutUser()">🚪 Cerrar Sesión</button>
+        </div>
+      </li>
       <li class="cta"><a href="https://wa.me/51999999999?text=Hola,%20quisiera%20hacer%20una%20reserva" target="_blank" onclick="closeMenu()">Reservar</a></li>
     </ul>
   </nav>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="login-overlay" id="loginOverlay" onclick="closeLoginModal(event)">
+  <div class="login-modal" onclick="event.stopPropagation()">
+    <button class="login-close" onclick="closeLoginModal()">&times;</button>
+    <div class="login-header">
+      <div class="login-logo">ANT</div>
+      <h2>Iniciar Sesión</h2>
+      <p>Accede al panel de tu área</p>
+    </div>
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="login-field">
+        <label for="loginEmail">Correo electrónico</label>
+        <input type="email" id="loginEmail" placeholder="tu@antika.pe" required autocomplete="email">
+      </div>
+      <div class="login-field">
+        <label for="loginPassword">Contraseña</label>
+        <div class="password-wrapper">
+          <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+          <button type="button" class="toggle-pass" onclick="togglePassword()">👁</button>
+        </div>
+      </div>
+      <div class="login-error" id="loginError" style="display:none;"></div>
+      <button type="submit" class="login-submit" id="loginSubmitBtn">
+        <span class="login-submit-text">Ingresar</span>
+        <span class="login-spinner" style="display:none;"></span>
+      </button>
+    </form>
+    <div class="login-footer">
+      <p>🔒 Acceso exclusivo para personal del restaurante</p>
+    </div>
+  </div>
 </div>
 
 <!-- HERO -->

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Antika Restaurant – Panel de Administración">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self' fonts.gstatic.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' http://localhost:3000 http://127.0.0.1:3000;">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Special+Elite&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin.css">
+    <title>Antika Restaurant – Panel de Administración</title>
+</head>
+<body>
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">ANT</div>
+            <div>
+                <div class="logo-text">ANTIKA</div>
+                <div class="logo-sub">Restaurant · Sicuani</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <p class="nav-label">Panel</p>
+            <ul>
+                <li><a href="#" class="nav-item active" data-section="dashboard">
+                    <span class="nav-icon">📊</span><span>Dashboard</span>
+                </a></li>
+            </ul>
+
+            <p class="nav-label">Secciones</p>
+            <ul>
+                <li><a href="#" class="nav-item" data-section="cocineros">
+                    <span class="nav-icon">👨‍🍳</span><span>Cocina</span>
+                    <span class="nav-badge" id="badgePedidos">0</span>
+                </a></li>
+                <li><a href="#" class="nav-item" data-section="mozos">
+                    <span class="nav-icon">🤵</span><span>Sala</span>
+                </a></li>
+                <li><a href="#" class="nav-item" data-section="administracion">
+                    <span class="nav-icon">🏢</span><span>Administración</span>
+                    <span class="badge-admin">ADMIN</span>
+                </a></li>
+            </ul>
+
+            <p class="nav-label">Acceso Rápido</p>
+            <ul>
+                <li><a href="/" class="nav-item">
+                    <span class="nav-icon">🏠</span><span>Ir al Sitio</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-avatar" id="userAvatar">A</div>
+            <div class="user-info">
+                <p class="user-name" id="userName">Administrador</p>
+                <p class="user-role" id="userRole">Super Admin</p>
+            </div>
+            <button class="btn-logout" id="btnLogout" title="Cerrar sesión" onclick="cerrarSesion()">🚪</button>
+        </div>
+    </aside>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="main-wrapper">
+
+        <header class="topbar">
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="topbar-title">
+                <h1 id="pageTitle">Dashboard General</h1>
+                <p id="pageBreadcrumb">Antika Restaurant / Dashboard</p>
+            </div>
+            <div class="topbar-actions">
+                <span class="topbar-date" id="currentDate"></span>
+                <span class="topbar-clock" id="currentTime"></span>
+            </div>
+        </header>
+
+        <!-- ======================================================
+             DASHBOARD
+        ====================================================== -->
+        <section class="content-section active" id="section-dashboard">
+            <div class="section-intro">
+                <h2>Vista General del Restaurante</h2>
+                <p>Estado en tiempo real de la operación de Antika Restaurant – Sicuani, Cusco.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card stat-teal" onclick="goTo('cocineros')">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-data">
+                        <p class="stat-num" id="dashPedidosPend">0</p>
+                        <p class="stat-label">Pedidos en Cocina</p>
+                    </div>
+                    <div class="stat-arrow">→</div>
+                </div>
+                <div class="stat-card stat-gold" onclick="goTo('mozos')">
+                    <div class="stat-icon">🪑</div>
+                    <div class="stat-data">
+                        <p class="stat-num" id="dashMesasOcup">0</p>
+                        <p class="stat-label">Mesas Ocupadas</p>
+                    </div>
+                    <div class="stat-arrow">→</div>
+                </div>
+                <div class="stat-card stat-blue" onclick="goTo('administracion')">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-data">
+                        <p class="stat-num" id="dashIngresos">S/. 0</p>
+                        <p class="stat-label">Ingresos del Día</p>
+                    </div>
+                    <div class="stat-arrow">→</div>
+                </div>
+                <div class="stat-card stat-red" onclick="goTo('mozos')">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-data">
+                        <p class="stat-num" id="dashPersonal">0</p>
+                        <p class="stat-label">Personal Activo</p>
+                    </div>
+                    <div class="stat-arrow">→</div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dash-card span2">
+                    <h3 class="card-title">🔥 Cola de Pedidos en Vivo</h3>
+                    <div class="orders-live" id="dashOrdersLive"></div>
+                </div>
+                <div class="dash-card">
+                    <h3 class="card-title">🪑 Estado de Mesas</h3>
+                    <div class="mesas-grid-mini" id="dashMesas"></div>
+                </div>
+                <div class="dash-card">
+                    <h3 class="card-title">⏰ Actividad Reciente</h3>
+                    <ul class="activity-list" id="activityList"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================
+             COCINEROS — Cola de pedidos
+        ====================================================== -->
+        <section class="content-section" id="section-cocineros">
+            <div class="section-intro">
+                <h2>👨‍🍳 Cola de Pedidos – Cocina</h2>
+                <p>Varios cocineros pueden colaborar en el mismo pedido. Selecciona tu nombre, toma un pedido y márcalo como despachado.</p>
+            </div>
+
+            <div class="cocinero-activo-bar">
+                <label class="coc-bar-label">¿Quién está en cocina ahora?</label>
+                <div class="cocinero-chips" id="cocineroChips"></div>
+            </div>
+
+            <div class="cola-filtros">
+                <button class="filtro-btn active" data-filtro="todos">Todos</button>
+                <button class="filtro-btn" data-filtro="pendiente">🕐 Pendiente</button>
+                <button class="filtro-btn" data-filtro="tomado">👨‍🍳 En Proceso</button>
+                <button class="filtro-btn" data-filtro="listo">✅ Listo</button>
+                <button class="filtro-btn" data-filtro="despachado">🚀 Despachado</button>
+            </div>
+
+            <div class="cola-header">
+                <div class="cola-stats">
+                    <span class="cola-stat"><span id="countPend">0</span> pendientes</span>
+                    <span class="cola-divider">·</span>
+                    <span class="cola-stat"><span id="countProc">0</span> en proceso</span>
+                    <span class="cola-divider">·</span>
+                    <span class="cola-stat cok"><span id="countList">0</span> listos</span>
+                </div>
+                <button class="btn-primary btn-sm" onclick="simularNuevoPedido()">+ Simular Nuevo Pedido</button>
+            </div>
+
+            <div class="cola-container" id="colaPedidos"></div>
+        </section>
+
+        <!-- ======================================================
+             MOZOS — Mesas / Pedidos / Carta / Asistencia
+        ====================================================== -->
+        <section class="content-section" id="section-mozos">
+            <div class="section-intro">
+                <h2>🤵 Panel de Sala</h2>
+                <p>Gestión de mesas, toma de pedidos, carta del día y asistencia del personal.</p>
+            </div>
+
+            <div class="subtabs">
+                <button class="subtab active" data-tab="moz-mesas">🪑 Mesas</button>
+                <button class="subtab" data-tab="moz-pedidos">🍽 Pedidos por Mesa</button>
+                <button class="subtab" data-tab="moz-carta">📋 La Carta</button>
+                <button class="subtab" data-tab="moz-asistencia">✅ Asistencia</button>
+            </div>
+
+            <!-- MESAS -->
+            <div class="subtab-content active" id="moz-mesas">
+                <div class="toolbar">
+                    <div class="leyenda-mesas">
+                        <span class="leyenda-item libre">Libre</span>
+                        <span class="leyenda-item ocupada">Ocupada</span>
+                        <span class="leyenda-item reservada">Reservada</span>
+                    </div>
+                    <button class="btn-primary btn-sm" onclick="abrirModal('mesa')">+ Nueva Mesa</button>
+                </div>
+                <div class="mesas-layout" id="mesasLayout"></div>
+            </div>
+
+            <!-- PEDIDOS POR MESA -->
+            <div class="subtab-content" id="moz-pedidos">
+                <div class="toolbar">
+                    <label style="font-size:0.88rem;font-weight:700;color:var(--text-mid)">Seleccionar Mesa:</label>
+                    <select class="input-select" id="selectMesaPedido" onchange="renderPedidoMesa()">
+                        <option value="">— Elegir mesa ocupada —</option>
+                    </select>
+                </div>
+                <div id="pedidoMesaArea">
+                    <div class="empty-state">
+                        <span>🪑</span>
+                        <p>Selecciona una mesa para ver y gestionar sus pedidos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTA DEL DÍA -->
+            <div class="subtab-content" id="moz-carta">
+                <div class="toolbar">
+                    <input type="text" class="search-input" placeholder="Buscar plato..." id="searchPlato">
+                    <select class="input-select" id="filtroCategoria">
+                        <option value="todos">Todas las categorías</option>
+                        <option value="Desayunos">Desayunos</option>
+                        <option value="Sándwiches">Sándwiches</option>
+                        <option value="Ensaladas">Ensaladas</option>
+                        <option value="Sopas">Sopas</option>
+                        <option value="Medio Día">Medio Día</option>
+                        <option value="Fondos">Fondos</option>
+                        <option value="Burgers">Burgers</option>
+                        <option value="Alitas">Alitas & Broaster</option>
+                        <option value="Adicionales">Adicionales</option>
+                    </select>
+                    <button class="btn-primary btn-sm" onclick="abrirModal('plato')">+ Agregar Plato</button>
+                </div>
+                <div class="carta-grid" id="cartaGrid"></div>
+            </div>
+
+            <!-- ASISTENCIA -->
+            <div class="subtab-content" id="moz-asistencia">
+                <h3 class="sub-title">Registro de Asistencia – <span id="fechaAsistencia"></span></h3>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr>
+                            <th>Nombre</th><th>Cargo</th><th>Entrada</th>
+                            <th>Salida</th><th>Estado</th><th>Acciones</th>
+                        </tr></thead>
+                        <tbody id="bodyAsistencia"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================
+             ADMINISTRACIÓN
+        ====================================================== -->
+        <section class="content-section" id="section-administracion">
+            <div class="section-intro">
+                <h2>🏢 Panel de Administración</h2>
+                <p>Acceso completo: reportes, empleados, caja y reservas. Solo administradores.</p>
+            </div>
+
+            <div class="subtabs">
+                <button class="subtab active" data-tab="adm-reportes">📈 Reportes</button>
+                <button class="subtab" data-tab="adm-empleados">👥 Empleados</button>
+                <button class="subtab" data-tab="adm-nuevo-usuario">➕ Nuevo Usuario</button>
+                <button class="subtab" data-tab="adm-roles">🔐 Roles</button>
+                <button class="subtab" data-tab="adm-caja">💰 Caja</button>
+                <button class="subtab" data-tab="adm-reservas">📅 Reservas</button>
+            </div>
+
+            <!-- REPORTES -->
+            <div class="subtab-content active" id="adm-reportes">
+                <div class="reportes-header">
+                    <h3 class="sub-title">Estadísticas del Restaurante</h3>
+                    <select class="input-select" id="periodoReporte" onchange="actualizarReporte()">
+                        <option value="hoy">Hoy</option>
+                        <option value="semana" selected>Esta Semana</option>
+                        <option value="mes">Este Mes</option>
+                    </select>
+                </div>
+                <div class="reportes-stats">
+                    <div class="reporte-card"><p class="reporte-num" id="repTotal">—</p><p class="reporte-label">Ingresos Totales</p><p class="reporte-trend" id="repTotalTrend"></p></div>
+                    <div class="reporte-card"><p class="reporte-num" id="repPlatos">—</p><p class="reporte-label">Platos Servidos</p><p class="reporte-trend" id="repPlatosTrend"></p></div>
+                    <div class="reporte-card"><p class="reporte-num" id="repClientes">—</p><p class="reporte-label">Clientes Atendidos</p><p class="reporte-trend" id="repClientesTrend"></p></div>
+                    <div class="reporte-card"><p class="reporte-num" id="repTicket">—</p><p class="reporte-label">Ticket Promedio</p><p class="reporte-trend" id="repTicketTrend"></p></div>
+                </div>
+                <div class="chart-area">
+                    <h3 class="sub-title" id="chartTitle">Ingresos por Día</h3>
+                    <div class="bar-chart" id="barChart"></div>
+                </div>
+                <div class="top-platos">
+                    <h3 class="sub-title">Platos Más Vendidos</h3>
+                    <div class="platos-ranking" id="platosRanking"></div>
+                </div>
+            </div>
+
+            <!-- EMPLEADOS -->
+            <div class="subtab-content" id="adm-empleados">
+                <div class="toolbar">
+                    <input type="text" class="search-input" placeholder="Buscar empleado..." id="searchEmpleado">
+                    <select class="input-select" id="filtroCargoEmp">
+                        <option value="todos">Todos los cargos</option>
+                        <option value="Cocinero">Cocineros</option>
+                        <option value="Mozo">Mozos</option>
+                    </select>
+                    <button class="btn-primary btn-sm" onclick="abrirModal('empleado')">+ Nuevo Empleado</button>
+                </div>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr>
+                            <th>Nombre</th><th>Cargo</th><th>Turno</th>
+                            <th>Sueldo</th><th>Estado</th><th>Acciones</th>
+                        </tr></thead>
+                        <tbody id="bodyEmpleados"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- NUEVO USUARIO -->
+            <div class="subtab-content" id="adm-nuevo-usuario">
+                <div class="section-intro">
+                    <h3 class="sub-title">Registrar Nuevo Usuario</h3>
+                    <p>Agrega nuevos trabajadores al sistema con su rol correspondiente.</p>
+                </div>
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Nombre *</label>
+                            <input type="text" class="form-input" id="nuevoUserNombre" placeholder="Juan">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Apellido *</label>
+                            <input type="text" class="form-input" id="nuevoUserApellido" placeholder="García">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Correo Electrónico *</label>
+                        <input type="email" class="form-input" id="nuevoUserEmail" placeholder="juan@antika.pe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contraseña *</label>
+                        <input type="password" class="form-input" id="nuevoUserPassword" placeholder="••••••••">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rol del Usuario *</label>
+                        <select class="input-select" id="nuevoUserRol" style="width:100%">
+                            <option value="">-- Seleccionar rol --</option>
+                            <option value="1">👑 Administrador</option>
+                            <option value="2">👨‍🍳 Cocinero</option>
+                            <option value="3">🤵 Mozo</option>
+                            <option value="4">👤 Cliente</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Teléfono (Opcional)</label>
+                            <input type="tel" class="form-input" id="nuevoUserTelefono" placeholder="999 999 999">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">DNI (Opcional)</label>
+                            <input type="text" class="form-input" id="nuevoUserDNI" placeholder="12345678">
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="registrarNuevoUsuario()" style="width:100%;padding:12px;margin-top:20px;font-size:16px;">
+                        ✅ Crear Usuario
+                    </button>
+                </div>
+                <div style="border-top:2px solid var(--cream-dark);padding-top:30px;">
+                    <h3 class="sub-title">Usuarios Registrados Recientemente</h3>
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead><tr>
+                                <th>Nombre</th><th>Email</th><th>Rol</th><th>Teléfono</th><th>Fecha Registro</th><th>Acciones</th>
+                            </tr></thead>
+                            <tbody id="bodyNuevosUsuarios"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROLES -->
+            <div class="subtab-content" id="adm-roles">
+                <div class="toolbar">
+                    <input type="text" class="search-input" placeholder="Buscar usuario por email o nombre..." id="searchRoles">
+                    <select class="input-select" id="filtroRoles">
+                        <option value="todos">Todos los usuarios</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Cocinero</option>
+                        <option value="3">Mozo</option>
+                        <option value="4">Cliente</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr>
+                            <th>Nombre</th><th>Email</th><th>Rol Actual</th>
+                            <th>DNI</th><th>Teléfono</th><th>Cambiar Rol</th><th>Acciones</th>
+                        </tr></thead>
+                        <tbody id="bodyRoles"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CAJA -->
+            <div class="subtab-content" id="adm-caja">
+                <div class="caja-header">
+                    <h3 class="sub-title">Control de Caja – Hoy</h3>
+                    <button class="btn-primary btn-sm" onclick="cerrarCaja()">Cerrar Caja del Día</button>
+                </div>
+                <div class="caja-resumen" id="cajaResumen"></div>
+                <h3 class="sub-title" style="margin-top:2rem">Últimas Transacciones</h3>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr>
+                            <th>Hora</th><th>Mesa</th><th>Mozo</th>
+                            <th>Total</th><th>Método</th><th>Estado</th>
+                        </tr></thead>
+                        <tbody id="bodyTransacciones"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- RESERVAS -->
+            <div class="subtab-content" id="adm-reservas">
+                <div class="toolbar">
+                    <input type="text" class="search-input" placeholder="Buscar cliente o fecha...">
+                    <button class="btn-primary btn-sm" onclick="abrirModal('reserva')">+ Nueva Reserva</button>
+                </div>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr>
+                            <th>Cliente</th><th>Fecha</th><th>Hora</th>
+                            <th>Personas</th><th>Mesa</th><th>Estado</th><th>Acciones</th>
+                        </tr></thead>
+                        <tbody id="bodyReservas"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- fin main-wrapper -->
+
+    <!-- ======== MODAL GENÉRICO ======== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalBox">
+            <div class="modal-header">
+                <h3 id="modalTitle">Agregar</h3>
+                <button class="close-btn" onclick="cerrarModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- ======== MODAL MESA DETALLE ======== -->
+    <div class="modal-overlay" id="mesaModalOverlay">
+        <div class="modal modal-wide" id="mesaModalBox">
+            <div class="modal-header">
+                <h3 id="mesaModalTitle">Mesa</h3>
+                <button class="close-btn" onclick="cerrarMesaModal()">✕</button>
+            </div>
+            <div class="modal-body" id="mesaModalBody"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/admin.js"></script>
+</body>
+</html>
