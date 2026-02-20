@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 
 // CORS configuration - Allow frontend from Live Server
 const corsOptions = {
-  origin: ['http://127.0.0.1:5500', 'http://localhost:5500'],
+  origin: ['http://127.0.0.1:5500', 'http://localhost:5500', 'http://localhost:3000', 'http://127.0.0.1:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -54,6 +54,11 @@ app.use('/api/reservas', reservasRoutes);
 app.use('/api/asistencia', asistenciaRoutes);
 app.use('/api/reportes', reportesRoutes);
 app.use('/api/caja', cajaRoutes);
+
+// Serve favicon
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'favicon.svg'));
+});
 
 // Serve admin page
 app.get('/admin', (req, res) => {

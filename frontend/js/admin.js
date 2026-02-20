@@ -11,6 +11,21 @@
 // Configuración API - Backend Server
 const API_BASE = 'http://localhost:3000/api';
 
+// Global error handler to suppress extension-related errors
+window.addEventListener('error', function(e) {
+  if (e.message && e.message.includes('message channel closed')) {
+    e.preventDefault();
+    e.stopPropagation();
+    return true;
+  }
+});
+
+window.addEventListener('unhandledrejection', function(e) {
+  if (e.reason && e.reason.message && e.reason.message.includes('message channel closed')) {
+    e.preventDefault();
+  }
+});
+
 // ─── DATOS DEL MENÚ REAL DE ANTIKA ──────────────────────────
 let CARTA_ANTIKA = [
   // Desayunos
@@ -332,7 +347,7 @@ function renderCola() {
   col.innerHTML = filtrados.map(p => {
     const mins = Math.floor((Date.now()-p.tiempo)/60000);
     const urgente = mins > 20;
-    return `<div class="pedido-card estado-${p.estado}">
+    return `<div class="pedido-card estado-${p.estado}" data-pedido-id="${p.id}">
       <div class="pedido-card-header">
         <div class="pedido-info">
           <p class="pedido-mesa">Mesa ${p.mesa}</p>
@@ -542,6 +557,82 @@ async function registrarSalida(id) {
 }
 
 // ─── PEDIDO POR MESA ─────────────────────────────────────────
+async function agregarPlatoMesa(mesaId, platoId, nombre, precio) {
+  const mozo = getAntikaUser()?.nombre || 'Mozo';
+  
+  // Check if mesa is open
+  const mesa = mesas.find(m => m.id === mesaId);
+  if (!mesa || mesa.estado === 'libre') {
+    // Open the mesa first - use 'ocupada' instead of 'abierta'
+    await apiPut('/mesas/' + mesaId, { estado: 'ocupada', mozo: mozo });
+    // Update local state
+    if (mesa) {
+      mesa.estado = 'ocupada';
+      mesa.mozo = mozo;
+    }
+  }
+  
+  try {
+    const result = await apiPost('/pedidos/agregar/' + mesaId, {
+      items: [{ nombre: nombre, precio: precio, cantidad: 1 }],
+      mozo: mozo
+    });
+    
+    if (result?.ok || result?.id) {
+      showToast(`✅ ${nombre} agregado a Mesa ${mesaId}`);
+      // Reload data
+      const [pedidosData, mesasData] = await Promise.all([
+        apiGet('/pedidos'),
+        apiGet('/mesas')
+      ]);
+      if (pedidosData) pedidos = pedidosData;
+      if (mesasData) mesas = mesasData;
+      renderPedidoMesaById(mesaId);
+      renderMesas();
+    } else {
+      showToast(`❌ ${result?.error || 'Error al agregar'}`);
+    }
+  } catch (err) {
+    showToast('❌ Error de conexión');
+    console.error(err);
+  }
+}
+
+async function quitarPlatoMesa(mesaId, nombrePlato) {
+  if (!confirm(`¿Quitar ${nombrePlato} de la mesa?`)) return;
+  
+  try {
+    // Find the pedido for this mesa - search by mesa_id in backend style
+    const pedido = pedidos.find(p => p.mesa === mesaId && p.estado !== 'despachado' && p.estado !== 'cerrado');
+    if (!pedido) {
+      showToast('❌ No hay pedido activo');
+      return;
+    }
+    
+    // Find the item INDEX to remove (not by id since items don't have id)
+    const itemIndex = pedido.items.findIndex(i => i.nombre === nombrePlato);
+    if (itemIndex === -1) {
+      showToast('❌ Plato no encontrado');
+      return;
+    }
+    
+    const result = await apiPost('/pedidos/quitar/' + pedido.id, { itemId: itemIndex });
+    
+    if (result?.ok || result?.message) {
+      showToast(`✅ ${nombrePlato} quitado`);
+      // Reload pedidos
+      const pedidosData = await apiGet('/pedidos');
+      if (pedidosData) pedidos = pedidosData;
+      renderPedidoMesaById(mesaId);
+      renderMesas();
+    } else {
+      showToast(`❌ ${result?.error || 'Error al quitar'}`);
+    }
+  } catch (err) {
+    showToast('❌ Error de conexión');
+    console.error(err);
+  }
+}
 function renderPedidoMesa() {
   const id = parseInt(document.getElementById('selectMesaPedido').value);
   if (!id) return;
@@ -553,18 +644,19 @@ function renderPedidoMesaById(id) {
   const mPedidos = pedidos.filter(p => p.mesa === id && p.estado !== 'despachado');
   const allItems = mPedidos.flatMap(p => p.items);
   const total = allItems.reduce((sum,i) => {
-    const plato = CARTA_ANTIKA.find(x=>x.nombre===i.nombre); return sum + (plato?plato.precio*i.cant:0);
+    const plato = CARTA_ANTIKA.find(x=>x.nombre===i.nombre); return sum + (plato?plato.precio*(i.cantidad || i.cant):0);
   }, 0);
   area.innerHTML = `<div class="pedido-mesa-wrapper">
     <div class="pedido-lista-card">
       <p class="pedido-lista-title">Mesa ${id} — Consumo Actual</p>
       ${allItems.length ? allItems.map((i,idx)=>{
         const plato = CARTA_ANTIKA.find(x=>x.nombre===i.nombre);
+        const cantidad = i.cantidad || i.cant || 1;
         return `<div class="pedido-lista-row">
-          <span class="pl-qty">${i.cant}×</span>
+          <span class="pl-qty">${cantidad}×</span>
           <span class="pl-name">${i.nombre}</span>
-          <span class="pl-price">S/ ${plato?(plato.precio*i.cant).toFixed(2):'—'}</span>
-          <button class="pl-del" title="Quitar">✕</button>
+          <span class="pl-price">S/ ${plato?(plato.precio*cantidad).toFixed(2):'—'}</span>
+          <button class="pl-del" title="Quitar" onclick="quitarPlatoMesa(${id}, '${i.nombre}')">✕</button>
         </div>`;
       }).join('') : '<p style="color:var(--text-light);font-size:.88rem">Sin pedidos activos</p>'}
       <div class="pedido-total-row"><span>TOTAL</span><span>S/ ${total.toFixed(2)}</span></div>
@@ -580,7 +672,7 @@ function renderPedidoMesaById(id) {
           <div class="carta-mini-item">
             <span class="cmi-name">${p.nombre}</span>
             <span class="cmi-price">S/${p.precio}</span>
-            <button class="cmi-add" onclick="showToast('➕ ${p.nombre} agregado')">+</button>
+            <button class="cmi-add" onclick="agregarPlatoMesa(${id}, ${p.id}, '${p.nombre}', ${p.precio})">+</button>
           </div>`).join('')}
       </div>
     </div>
@@ -987,6 +1079,9 @@ async function initApp() {
   // Load data
   await loadDataFromBackend();
 
+  // Initialize keyboard shortcuts
+  initKeyboardShortcuts();
+
   // Determine initial section from URL param or role default
   const params = new URLSearchParams(window.location.search);
   let section = params.get('section') || ROLE_DEFAULT_SECTION[user.rol] || 'dashboard';
@@ -999,6 +1094,136 @@ async function initApp() {
 
   goTo(section);
 }
+
+// ─── KEYBOARD SHORTCUTS ──────────────────────────────────────────
+// Keyboard navigation for pedidos
+let selectedPedidoIndex = -1;
+
+function initKeyboardShortcuts() {
+  document.addEventListener('keydown', (e) => {
+    // Ignore if typing in input field
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+      return;
+    }
+
+    const key = e.key.toLowerCase();
+    const activeSection = document.querySelector('.content-section.active')?.id;
+    
+    // Cocina panel shortcuts
+    if (activeSection === 'section-cocineros') {
+      // 'x' to take pedido
+      if (key === 'x') {
+        e.preventDefault();
+        tomarPedidoSeleccionado();
+        return;
+      }
+      // 'l' to mark ready
+      if (key === 'l') {
+        e.preventDefault();
+        marcarListoSeleccionado();
+        return;
+      }
+      // 'd' to dispatch
+      if (key === 'd') {
+        e.preventDefault();
+        despacharSeleccionado();
+        return;
+      }
+    }
+    
+    // Sala/Mozos panel shortcuts
+    if (activeSection === 'section-mozos') {
+      // '+' to open mesa selector for new pedido
+      if (key === '+' || e.key === 'Add') {
+        e.preventDefault();
+        document.getElementById('selectMesaPedido')?.focus();
+        showToast('⌨️ Seleccione una mesa y agregue platos');
+        return;
+      }
+    }
+    
+    // General navigation
+    // Arrow keys to navigate pedidos
+    if (key === 'arrowup' || key === 'arrowdown') {
+      e.preventDefault();
+      navigatePedidos(e.key === 'arrowup' ? -1 : 1);
+      return;
+    }
+    
+    // '1-4' for section quick access
+    if (e.key >= '1' && e.key <= '4' && !e.ctrlKey && !e.metaKey) {
+      const sections = ['dashboard', 'cocineros', 'mozos', 'administracion'];
+      const idx = parseInt(e.key) - 1;
+      if (idx < sections.length) {
+        e.preventDefault();
+        goTo(sections[idx]);
+        showToast(`⌨️ Navegando a: ${sections[idx]}`);
+      }
+    }
+  });
+}
+
+function navigatePedidos(direction) {
+  const cards = document.querySelectorAll('.pedido-card');
+  if (cards.length === 0) return;
+
+  // Remove previous selection
+  cards.forEach(card => card.classList.remove('keyboard-selected'));
+
+  // Calculate new index
+  selectedPedidoIndex += direction;
+  if (selectedPedidoIndex < 0) selectedPedidoIndex = cards.length - 1;
+  if (selectedPedidoIndex >= cards.length) selectedPedidoIndex = 0;
+
+  // Select new card
+  const newCard = cards[selectedPedidoIndex];
+  newCard.classList.add('keyboard-selected');
+  newCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function tomarPedidoSeleccionado() {
+  const selected = document.querySelector('.pedido-card.keyboard-selected');
+  if (!selected) {
+    showToast('⌨️ Seleccione un pedido con ↑↓ y presione x para tomar');
+    return;
+  }
+  const id = selected.dataset.pedidoId;
+  if (id) tomarPedido(id);
+}
+
+function marcarListoSeleccionado() {
+  const selected = document.querySelector('.pedido-card.keyboard-selected');
+  if (!selected) {
+    showToast('⌨️ Seleccione un pedido con ↑↓ y presione l para marcar listo');
+    return;
+  }
+  const id = selected.dataset.pedidoId;
+  if (id) marcarListo(id);
+}
+
+function despacharSeleccionado() {
+  const selected = document.querySelector('.pedido-card.keyboard-selected');
+  if (!selected) {
+    showToast('⌨️ Seleccione un pedido con ↑↓ y presione d para despachar');
+    return;
+  }
+  const id = selected.dataset.pedidoId;
+  if (id) despacharPedido(id);
+}
+
+// Add keyboard selection styles
+const keyboardStyles = document.createElement('style');
+keyboardStyles.textContent = `
+  .pedido-card.keyboard-selected {
+    outline: 3px solid #3b82f6 !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5) !important;
+    transform: scale(1.02);
+  }
+  .pedido-mesa-wrapper.keyboard-selected .pedido-lista-row {
+    outline: 2px solid #3b82f6 !important;
+  }
+`;
+document.head.appendChild(keyboardStyles);
 
 initApp();
 
